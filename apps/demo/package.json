@@ -15,6 +15,6 @@
   "license": "ISC",
   "description": "Demo application for Lollipop Tools",
   "dependencies": {
-    "@lollipop/cli": "workspace:*"
+    "lollipop-cli": "workspace:*"
   }
 }

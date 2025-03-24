@@ -1,6 +1,6 @@
 {
-  "name": "@lollipop/cli",
-  "version": "1.0.0",
+  "name": "lollipop-cli",
+  "version": "1.0.0-beta.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
