@@ -11,19 +11,25 @@
     "version": "changeset version",
     "publish": "changeset publish",
     "clean": "pnpm -r exec rm -rf dist",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky"
   },
   "keywords": [],
-  "author": "",
+  "author": "lanzifeng118",
   "license": "ISC",
   "description": "Lollipop Tools for managing npm packages",
-
   "devDependencies": {
     "@changesets/cli": "^2.28.1",
-    "turbo": "^2.4.4",
-    "typescript": "^5.3.3",
+    "@types/node": "^20.11.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
-    "@types/node": "^20.11.5"
+    "turbo": "^2.4.4",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
   }
 }

@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+# 在Git提交过程中运行对暂存区文件的检查。它通常用于在提交前检查代码风格、格式和错误。
+npx lint-staged
