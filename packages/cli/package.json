@@ -1,0 +1,32 @@
+{
+  "name": "@lollipop/cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "lollipop": "bin.js"
+  },
+  "files": [
+    "bin.js",
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "enquirer": "^2.4.1",
+    "extendable-error": "^0.1.7",
+    "simple-git": "^3.24.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/yargs": "^17.0.32"
+  }
+}

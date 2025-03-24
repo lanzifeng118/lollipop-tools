@@ -1,0 +1,20 @@
+{
+  "name": "@lollipop-test/demo",
+  "private": true,
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "merge:test": "lollipop merge test"
+  },
+  "keywords": [],
+  "author": "lanzifeng118",
+  "license": "ISC",
+  "description": "Demo application for Lollipop Tools",
+  "dependencies": {
+    "@lollipop/cli": "workspace:*"
+  }
+}
