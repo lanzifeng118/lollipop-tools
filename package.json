@@ -9,6 +9,7 @@
     "test": "turbo run test",
     "changeset": "changeset",
     "changeset:beta": "changeset pre enter beta",
+    "changeset:exit": "changeset pre exit",
     "changeset:version": "changeset version",
     "clean": "pnpm -r exec rm -rf dist",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
