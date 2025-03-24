@@ -1,9 +1,0 @@
-{
-  "mode": "pre",
-  "tag": "beta",
-  "initialVersions": {
-    "@lollipop-test/demo": "1.0.0",
-    "lollipop-cli": "1.0.0"
-  },
-  "changesets": ["busy-comics-lose"]
-}
