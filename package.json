@@ -8,11 +8,11 @@
     "dev": "turbo run dev",
     "test": "turbo run test",
     "changeset": "changeset",
-    "version": "changeset version",
-    "publish": "changeset publish",
+    "changeset:beta": "changeset pre enter beta",
+    "changeset:version": "changeset version",
     "clean": "pnpm -r exec rm -rf dist",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky"
+    "release": "npm run build && changeset publish && git push --tags"
   },
   "keywords": [],
   "author": "lanzifeng118",
