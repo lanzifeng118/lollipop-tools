@@ -14,18 +14,20 @@ import { resolveConflicts } from './conflict'
 export async function gitMerge(option: MergeOptions) {
   const { autoConfirm = false, reset = false, remote = false } = option
 
-  info(`开始合并至${chalk.bold(chalk.blue(`${remote ? '远端' : '本地'}分支`))}`)
+  info(`开始合并至${chalk.bold(`${remote ? '远端' : '本地'}分支`)}`)
   await SimpleGit.fetch()
   const { localBranches, remoteBranches, currentBranch } = await getBranches()
 
   try {
+    // 确定目标分支
+    const targetBranch = await determineTargetBranch({ ...option, currentBranch, localBranches, remoteBranches })
+
+    info(chalk.bold(chalk.green(`${currentBranch} -> ${targetBranch}`)))
+
     // 先同步远程分支
     try {
       await SimpleGit.pull()
     } catch (error) {}
-
-    // 确定目标分支
-    const targetBranch = await determineTargetBranch({ ...option, currentBranch, localBranches, remoteBranches })
 
     // 本地是否存在
     const isLocalExit = localBranches.includes(targetBranch)

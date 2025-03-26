@@ -1,5 +1,11 @@
 # lollipop-cli
 
+## 1.0.1
+
+### Patch Changes
+
+- feat: 先同步远程分支
+
 ## 1.0.0
 
 ### Major Changes
