@@ -1,5 +1,11 @@
 # lollipop-cli
 
+## 1.1.1
+
+### Patch Changes
+
+- feat: 修改分支同步警告文案
+
 ## 1.1.0
 
 ### Minor Changes

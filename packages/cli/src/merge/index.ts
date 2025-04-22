@@ -39,7 +39,7 @@ export async function gitMerge(option: MergeOptions) {
     const isResetLocal = remote && isLocalExit && reset
 
     if (isResetLocal) {
-      warn(chalk.bgYellow(`本地已存在${targetBranch}, 将被重置！！！`))
+      warn(`分支同步警告：本地分支 ${targetBranch} 即将被强制更新至远程分支状态`)
     }
     // 确认
 
