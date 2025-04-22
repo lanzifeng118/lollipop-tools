@@ -1,5 +1,11 @@
 # lollipop-cli
 
+## 1.1.0
+
+### Minor Changes
+
+- feat: 优化冲突解决以及添加stash储存处理
+
 ## 1.0.1
 
 ### Patch Changes
