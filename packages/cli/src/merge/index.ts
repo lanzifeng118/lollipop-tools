@@ -5,7 +5,9 @@ import { MergeOptions } from './type'
 import { checkoutBranch, determineTargetBranch } from './branch'
 import { getBranches, SimpleGit } from '../helper/git'
 import { MergeError, MergeErrorCode } from '../helper/error'
-import { resolveConflicts } from './conflict'
+import { checkConflict, mergeIgnoreConflict, resolveConflicts } from './conflict'
+import { stash, stashList, stashPop } from './stash'
+import { GitError } from 'simple-git'
 
 /**
  * Execute a git merge operation with the given options
@@ -18,6 +20,8 @@ export async function gitMerge(option: MergeOptions) {
   await SimpleGit.fetch()
   const { localBranches, remoteBranches, currentBranch } = await getBranches()
 
+  let hasStash = false
+
   try {
     // 确定目标分支
     const targetBranch = await determineTargetBranch({ ...option, currentBranch, localBranches, remoteBranches })
@@ -27,7 +31,8 @@ export async function gitMerge(option: MergeOptions) {
     // 先同步远程分支
     try {
       await SimpleGit.pull()
-    } catch (error) {}
+      success('git pull成功')
+    } catch (e) {}
 
     // 本地是否存在
     const isLocalExit = localBranches.includes(targetBranch)
@@ -63,16 +68,27 @@ export async function gitMerge(option: MergeOptions) {
       success('删除本地分支', targetBranch)
     }
 
-    // 切换到目标分支
-    await checkoutBranch(targetBranch)
+    // 切换到目标分支 如果失败，检查status是否有未提交的文件
+    try {
+      await checkoutBranch(targetBranch)
+    } catch (e) {
+      const status = await SimpleGit.status()
+      if (status.modified.length > 0) {
+        warn(chalk.bgYellow(`存在未提交的文件, 将被 stash`))
+        await stash()
+        hasStash = true
+        await stashList()
+        await checkoutBranch(targetBranch)
+      } else {
+        throw e
+      }
+    }
 
-    // 执行合并操作
-    await SimpleGit.merge([currentBranch])
+    // 执行合并操作 冲突的时候，有的版本会有error信息，有的版本不会
+    await mergeIgnoreConflict(currentBranch)
 
-    // 检查是否有冲突
-    const status = await SimpleGit.status()
-    if (status.conflicted.length > 0) {
-      warn(`检测到合并冲突，文件: ${status.conflicted.join(', ')}`)
+    // 有的merge conflict没有进到catch里，所以统一在这里检查是否有冲突
+    if (await checkConflict()) {
       await resolveConflicts(targetBranch, currentBranch)
     }
 
@@ -84,12 +100,24 @@ export async function gitMerge(option: MergeOptions) {
       success('推送更改到远程分支', targetBranch)
     }
 
-    await checkoutBranch(currentBranch)
+    await resetEnv({ currentBranch, hasStash })
   } catch (err) {
-    await checkoutBranch(currentBranch)
+    await resetEnv({ currentBranch, hasStash })
+
     if (MergeError.isManualExit((err as unknown as any)?.code)) {
       process.exit(1)
     }
     throw err
+  }
+}
+
+/**
+ * 重置环境
+ */
+async function resetEnv(options: { currentBranch: string; hasStash: boolean }) {
+  const { currentBranch, hasStash } = options
+  await checkoutBranch(currentBranch)
+  if (hasStash) {
+    await stashPop()
   }
 }
